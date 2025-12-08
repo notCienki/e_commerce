@@ -1,17 +1,26 @@
-require('dotenv').config();
+require("dotenv").config();
+const express = require("express");
+const path = require("path");
+const connectDB = require("./utils/db");
 
-const connectDB = require('./utils/db');
-connectDB();
-
-const express = require('express');
 const app = express();
 
-app.set('view engine', 'ejs');
+// Połączenie z MongoDB
+connectDB();
 
-app.get('/', (req, res) => {
-    res.send('Hello shop!');
-});
+// Ustawiamy EJS
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
+// Serwujemy pliki statyczne
+app.use(express.static(path.join(__dirname, "public")));
+
+// Routing
+const indexRoutes = require("./routes/indexRoutes");
+app.use("/", indexRoutes);
+
+// Start serwera
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
+});
