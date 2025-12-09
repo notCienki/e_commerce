@@ -11,7 +11,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  image: String, // ścieżka do pliku w /public/img/
+  images: {
+    type: [String],
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now
