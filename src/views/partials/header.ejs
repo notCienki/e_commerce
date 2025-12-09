@@ -6,9 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sklep</title>
   <link rel="stylesheet" href="/css/output.css">
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
-  <header class="p-4 bg-white shadow">
-    <h2 class="text-xl font-bold">Sklep Internetowy</h2>
+<body class="bg-white text-black dark:bg-gray-900 dark:text-white">
+  <header class="p-4 bg-white dark:bg-gray-800 shadow flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <h2 class="text-xl font-bold">Sklep Internetowy</h2>
+      <nav>
+        <ul class="flex gap-4">
+          <li><a href="/" class="hover:underline">Home</a></li>
+          <li><a href="/products" class="hover:underline">Produkty</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="flex items-center">
+      <label for="darkModeToggle" class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" id="darkModeToggle" class="sr-only">
+        <div class="w-12 h-6 bg-gray-300 dark:bg-gray-600 rounded-full shadow-inner transition-colors duration-300">
+        </div>
+        <div
+          class="dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300">
+        </div>
+      </label>
+    </div>
   </header>
+
+
+  <script src="/js/main.js"></script>
+
+</body>
