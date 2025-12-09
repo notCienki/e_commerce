@@ -61,4 +61,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // Add to Cart
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const productId = button.dataset.productId;
+      const productName = button.dataset.productName;
+      const productPrice = button.dataset.productPrice;
+      const productImage = button.dataset.productImage;
+
+      try {
+        const response = await fetch('/cart/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productId,
+            productName,
+            productPrice,
+            productImage
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Pokaż powiadomienie
+          const originalText = button.textContent;
+          button.textContent = '✓ Dodano!';
+          button.classList.add('bg-green-600');
+          button.classList.remove('bg-blue-600');
+
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove('bg-green-600');
+            button.classList.add('bg-blue-600');
+          }, 1500);
+        }
+      } catch (error) {
+        console.error('Błąd:', error);
+        button.textContent = '✗ Błąd';
+        setTimeout(() => {
+          button.textContent = 'Dodaj do koszyka';
+        }, 1500);
+      }
+    });
+  });
 });

@@ -1,0 +1,67 @@
+// Dodaj produkt do koszyka
+exports.addToCart = (req, res) => {
+  const { productId, productName, productPrice, productImage } = req.body;
+
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+
+  const existingItem = req.session.cart.find(item => item.productId === productId);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    req.session.cart.push({
+      productId,
+      name: productName,
+      price: parseFloat(productPrice),
+      image: productImage,
+      quantity: 1
+    });
+  }
+
+  res.json({ success: true, cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) });
+};
+
+// Wyświetl koszyk
+exports.viewCart = (req, res) => {
+  const cart = req.session.cart || [];
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  res.render('pages/cart', { cart, total });
+};
+
+// Usuń produkt z koszyka
+exports.removeFromCart = (req, res) => {
+  const { productId } = req.params;
+
+  if (req.session.cart) {
+    req.session.cart = req.session.cart.filter(item => item.productId !== productId);
+  }
+
+  res.redirect('/cart');
+};
+
+// Zaktualizuj ilość
+exports.updateQuantity = (req, res) => {
+  const { productId } = req.params;
+  const { quantity } = req.body;
+
+  if (req.session.cart) {
+    const item = req.session.cart.find(item => item.productId === productId);
+    if (item) {
+      item.quantity = parseInt(quantity);
+      if (item.quantity <= 0) {
+        req.session.cart = req.session.cart.filter(i => i.productId !== productId);
+      }
+    }
+  }
+
+  res.json({ success: true });
+};
+
+// Wyczyść koszyk
+exports.clearCart = (req, res) => {
+  req.session.cart = [];
+  res.redirect('/cart');
+};
