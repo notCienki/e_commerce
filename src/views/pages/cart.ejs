@@ -12,7 +12,6 @@
       </div>
       <% } else { %>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- Lista produktów -->
           <div class="lg:col-span-2">
             <% cart.forEach(item=> { %>
               <div class="flex gap-4 p-4 mb-4 border rounded dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -49,7 +48,6 @@
               <% }) %>
           </div>
 
-          <!-- Podsumowanie -->
           <div class="lg:col-span-1">
             <div class="border p-6 rounded dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-6">
               <h2 class="text-2xl font-bold mb-4">Podsumowanie</h2>
@@ -83,24 +81,23 @@
   </div>
 
   <script>
-    function updateQuantity(input) {
-      const productId = input.dataset.productId;
-      const quantity = input.value;
+    const updateQuantity = async (input) => {
+      const { productId } = input.dataset;
+      const quantity = parseInt(input.value);
 
-      fetch(`/cart/update/${productId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ quantity: parseInt(quantity) })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            location.reload();
-          }
+      try {
+        const response = await fetch(`/cart/update/${productId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ quantity })
         });
-    }
+
+        const data = await response.json();
+        if (data.success) location.reload();
+      } catch (error) {
+        console.error('Błąd aktualizacji:', error);
+      }
+    };
   </script>
 
   <%- include('../partials/footer') %>

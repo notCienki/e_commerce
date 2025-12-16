@@ -9,18 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   toggle.addEventListener('change', () => {
-    if (toggle.checked) {
-      document.documentElement.classList.add('dark');
-      dot.classList.add('translate-x-6');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      dot.classList.remove('translate-x-6');
-      localStorage.setItem('theme', 'light');
-    }
+    const isDark = toggle.checked;
+    document.documentElement.classList.toggle('dark', isDark);
+    dot.classList.toggle('translate-x-6', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
-  // Image Carousel
   const carousels = document.querySelectorAll('.carousel');
 
   carousels.forEach(carousel => {
@@ -31,74 +25,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.querySelector(`.carousel-next[data-carousel="${carouselId}"]`);
     const dots = document.querySelectorAll(`[data-dot^="${carouselId}-"]`);
 
-    function showImage(index) {
+    const showImage = (index) => {
       images.forEach((img, i) => {
         img.classList.toggle('hidden', i !== index);
       });
 
       dots.forEach((dot, i) => {
-        if (i === index) {
-          dot.classList.remove('bg-white/50');
-          dot.classList.add('bg-white');
-        } else {
-          dot.classList.remove('bg-white');
-          dot.classList.add('bg-white/50');
-        }
+        dot.classList.toggle('bg-white', i === index);
+        dot.classList.toggle('bg-white/50', i !== index);
       });
-    }
+    };
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-      });
-    }
+    prevBtn?.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    });
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-      });
-    }
+    nextBtn?.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    });
   });
 
-  // Add to Cart
   const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
   addToCartButtons.forEach(button => {
     button.addEventListener('click', async () => {
-      const productId = button.dataset.productId;
-      const productName = button.dataset.productName;
-      const productPrice = button.dataset.productPrice;
-      const productImage = button.dataset.productImage;
+      const { productId, productName, productPrice, productImage } = button.dataset;
 
       try {
         const response = await fetch('/cart/add', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            productId,
-            productName,
-            productPrice,
-            productImage
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId, productName, productPrice, productImage })
         });
 
         const data = await response.json();
 
         if (data.success) {
-          // Pokaż powiadomienie
           const originalText = button.textContent;
           button.textContent = '✓ Dodano!';
-          button.classList.add('bg-green-600');
-          button.classList.remove('bg-blue-600');
+          button.classList.replace('bg-blue-600', 'bg-green-600');
 
           setTimeout(() => {
             button.textContent = originalText;
-            button.classList.remove('bg-green-600');
-            button.classList.add('bg-blue-600');
+            button.classList.replace('bg-green-600', 'bg-blue-600');
           }, 1500);
         }
       } catch (error) {

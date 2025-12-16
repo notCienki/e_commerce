@@ -6,6 +6,12 @@ const seedProducts = [
   {
     name: "Laptop",
     description: "Macbook Pro",
+    details: `Procesor: Apple M4
+              RAM: 16GB
+              Dysk SSD: 512GB
+              Karta graficzna: Apple M4 (10 rdzeni)
+              Ekran: 14.2", 3024 x 1964px, Matryca Liquid Retina XDR, 120Hz
+              System operacyjny: macOS`,
     price: 7999,
     stock: 5,
     images: [
@@ -20,6 +26,14 @@ const seedProducts = [
   {
     name: "Smartfon",
     description: "Iphone 17",
+    details: `Wyświetlacz: 6.3", 2622 x 1206px, OLED, Super Retina XDR
+              Pamięć wbudowana [GB]: 256
+              Procesor: Apple A19, Sześciordzeniowy
+              Aparat: Tylny 2x48 Mpx, Przedni 18 Mpx
+              Standard karty SIM: eSIM, Nano SIM
+              Komunikacja: 5G, Wi-Fi, NFC, Bluetooth 6.0, USB typ C
+              Wersja systemu: iOS 26
+              Smartfon ASIS: Nie`,
     price: 3999,
     stock: 10,
     images: [
@@ -31,6 +45,13 @@ const seedProducts = [
   {
     name: "Słuchawki",
     description: "AirPods Pro",
+    details: `Dedykowane: Do iPod/iPhone/iPad, Do telefonów
+              Czas pracy [h]: do 24
+              Typ słuchawek: Dokanałowe
+              Transmisja bezprzewodowa: Bluetooth
+              Aktywna redukcja szumów (ANC): Tak
+              Regulacja głośności: Tak
+              Kolor: Biały`,
     price: 1099,
     stock: 15,
     images: [

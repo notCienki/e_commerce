@@ -1,36 +1,31 @@
 <%- include('../partials/header') %>
 
   <h1 class="text-3xl font-bold mb-6 p-6">Produkty</h1>
-  <div class="grid grid-cols-3 gap-6 p-6">
+
+  <div class="max-w-4xl mx-auto space-y-6 p-6">
     <% products.forEach((product, index)=> { %>
-      <div class="border p-4 rounded shadow dark:border-gray-700 bg-white dark:bg-gray-800">
-        <% if (product.images && product.images.length> 0) { %>
+      <div
+        class="border p-6 rounded shadow dark:border-gray-700 bg-white dark:bg-gray-800 grid grid-cols-[300px_1fr] gap-6">
+
+        <% if (product.images?.length> 0) { %>
           <div class="relative group">
             <div class="carousel" data-carousel="<%= index %>">
               <% product.images.forEach((img, imgIndex)=> { %>
                 <img src="<%= img %>" alt="<%= product.name %>"
-                  class="carousel-image w-full h-48 object-cover rounded mb-4 <%= imgIndex === 0 ? '' : 'hidden' %>"
+                  class="carousel-image w-full h-64 object-cover object-center rounded <%= imgIndex === 0 ? '' : 'hidden' %>"
                   data-index="<%= imgIndex %>">
                 <% }) %>
             </div>
 
             <% if (product.images.length> 1) { %>
-              <!-- Strzałka w lewo -->
               <button
                 class="carousel-prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                data-carousel="<%= index %>">
-                ←
-              </button>
-
-              <!-- Strzałka w prawo -->
+                data-carousel="<%= index %>" aria-label="Poprzednie">←</button>
               <button
                 class="carousel-next absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                data-carousel="<%= index %>">
-                →
-              </button>
+                data-carousel="<%= index %>" aria-label="Następne">→</button>
 
-              <!-- Wskaźniki (dots) -->
-              <div class="flex justify-center gap-2 absolute bottom-6 left-1/2 -translate-x-1/2">
+              <div class="flex justify-center gap-2 absolute bottom-2 left-1/2 -translate-x-1/2">
                 <% product.images.forEach((img, dotIndex)=> { %>
                   <div class="w-2 h-2 rounded-full <%= dotIndex === 0 ? 'bg-white' : 'bg-white/50' %>"
                     data-dot="<%= index %>-<%= dotIndex %>"></div>
@@ -39,23 +34,54 @@
               <% } %>
           </div>
           <% } %>
-            <h2 class="text-xl font-semibold mb-2">
-              <%= product.name %>
-            </h2>
-            <p class="text-gray-700 dark:text-gray-300 mb-2">
-              <%= product.description %>
-            </p>
-            <p class="text-green-600 dark:text-green-400 font-bold text-xl mb-4">$<%= product.price %>
-            </p>
-            <button
-              class="add-to-cart w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors"
-              data-product-id="<%= product._id %>" data-product-name="<%= product.name %>"
-              data-product-price="<%= product.price %>"
-              data-product-image="<%= product.images && product.images.length > 0 ? product.images[0] : '' %>">
-              Dodaj do koszyka
-            </button>
+
+            <div class="flex flex-col">
+              <h2 class="text-2xl font-bold mb-1">
+                <%= product.name %>
+              </h2>
+              <% if (product.description) { %>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-3 italic">
+                  <%= product.description %>
+                </p>
+                <% } %>
+                  <p class="text-green-600 dark:text-green-400 font-bold text-2xl mb-3">$<%= product.price %>
+                  </p>
+                  <p class="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">
+                    <%= product.details || 'Brak szczegółowego opisu produktu' %>
+                  </p>
+                  <button
+                    class="add-to-cart mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition-colors"
+                    data-product-id="<%= product._id %>" data-product-name="<%= product.name %>"
+                    data-product-price="<%= product.price %>"
+                    data-product-image="<%= product.images?.[0] || '' %>">Dodaj do koszyka</button>
+            </div>
+
       </div>
       <% }) %>
   </div>
 
-  <%- include('../partials/footer') %>
+  <% if (totalPages> 1) { %>
+    <div class="max-w-4xl mx-auto p-6">
+      <nav class="flex justify-center items-center gap-2" aria-label="Paginacja">
+        <% if (currentPage> 1) { %>
+          <a href="?page=<%= currentPage - 1 %><%= searchQuery ? '&q=' + searchQuery : '' %>"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors">← Poprzednia</a>
+          <% } %>
+
+            <% for (let i=1; i <=totalPages; i++) { %>
+              <a href="?page=<%= i %><%= searchQuery ? '&q=' + searchQuery : '' %>"
+                class="px-4 py-2 <%= currentPage === i ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600' %> rounded transition-colors"
+                aria-current="<%= currentPage === i ? 'page' : undefined %>">
+                <%= i %>
+              </a>
+              <% } %>
+
+                <% if (currentPage < totalPages) { %>
+                  <a href="?page=<%= currentPage + 1 %><%= searchQuery ? '&q=' + searchQuery : '' %>"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors">Następna →</a>
+                  <% } %>
+      </nav>
+    </div>
+    <% } %>
+
+      <%- include('../partials/footer') %>
