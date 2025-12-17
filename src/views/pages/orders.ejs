@@ -1,0 +1,76 @@
+<%- include('../partials/header') %>
+
+  <div class="p-6 max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Moje zamówienia</h1>
+
+    <% if (orders.length===0) { %>
+      <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700">
+        <p class="text-gray-600 dark:text-gray-400 text-xl mb-4">Nie masz jeszcze żadnych zamówień</p>
+        <a href="/products" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+          Przejdź do sklepu
+        </a>
+      </div>
+      <% } else { %>
+        <div class="space-y-4">
+          <% orders.forEach(order=> { %>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border dark:border-gray-700">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Zamówienie z <%= new Date(order.createdAt).toLocaleDateString('pl-PL') %>
+                  </p>
+                  <p class="text-lg font-bold">
+                    #<%= order._id %>
+                  </p>
+                </div>
+                <span
+                  class="px-3 py-1 rounded text-sm font-semibold <%= order.status === 'open' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' : order.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' %>">
+                  <%= order.status==='open' ? 'W trakcie' : order.status==='completed' ? 'Zrealizowane' : 'Anulowane' %>
+                </span>
+              </div>
+
+              <div class="border-t dark:border-gray-700 pt-4 mb-4">
+                <h3 class="font-semibold mb-2">Produkty:</h3>
+                <div class="space-y-2">
+                  <% order.products.forEach(item=> { %>
+                    <div class="flex justify-between text-sm">
+                      <span>
+                        <%= item.name %> x <%= item.quantity %>
+                      </span>
+                      <span>
+                        <%= (item.price * item.quantity).toFixed(2).replace('.', ',' ) %> zł
+                      </span>
+                    </div>
+                    <% }) %>
+                </div>
+              </div>
+
+              <div class="border-t dark:border-gray-700 pt-4 mb-4">
+                <h3 class="font-semibold mb-2">Dane wysyłki:</h3>
+                <p class="text-sm">
+                  <%= order.customerInfo.fullName %>
+                </p>
+                <p class="text-sm">
+                  <%= order.customerInfo.email %>
+                </p>
+                <p class="text-sm">
+                  <%= order.customerInfo.phone %>
+                </p>
+                <p class="text-sm">
+                  <%= order.customerInfo.address %>
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center border-t dark:border-gray-700 pt-4">
+                <span class="font-bold">Razem:</span>
+                <span class="text-xl font-bold text-green-600 dark:text-green-400">
+                  <%= order.totalPrice.toFixed(2).replace('.', ',' ) %> zł
+                </span>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+        <% } %>
+  </div>
+
+  <%- include('../partials/footer') %>

@@ -9,6 +9,7 @@ import indexRoutes from './routes/indexRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use("/", indexRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/auth', authRoutes);
+app.use('/orders', orderRoutes);
 
 // Start serwera
 const PORT = process.env.PORT || 3000;

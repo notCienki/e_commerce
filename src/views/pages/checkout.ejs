@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+
+  <div class="p-6 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Finalizacja zamówienia</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border dark:border-gray-700 mb-6">
+          <h2 class="text-2xl font-bold mb-4">Dane do wysyłki</h2>
+
+          <form method="POST" action="/orders/checkout" class="space-y-4">
+            <div>
+              <label for="fullName" class="block text-sm font-medium mb-2">Imię i nazwisko</label>
+              <input type="text" id="fullName" name="fullName" required
+                class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium mb-2">Email</label>
+              <input type="email" id="email" name="email" required
+                class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+              <label for="phone" class="block text-sm font-medium mb-2">Telefon</label>
+              <input type="tel" id="phone" name="phone" required
+                class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+              <label for="address" class="block text-sm font-medium mb-2">Adres (ulica, kod, miasto)</label>
+              <textarea id="address" name="address" required rows="3"
+                class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <button type="submit"
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition-colors">
+              Złóż zamówienie
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border dark:border-gray-700 sticky top-6">
+          <h2 class="text-2xl font-bold mb-4">Podsumowanie</h2>
+
+          <div class="space-y-3 mb-4">
+            <% cart.forEach(item=> { %>
+              <div class="flex justify-between text-sm">
+                <span>
+                  <%= item.name %> x <%= item.quantity %>
+                </span>
+                <span>
+                  <%= (item.price * item.quantity).toFixed(2).replace('.', ',' ) %> zł
+                </span>
+              </div>
+              <% }) %>
+          </div>
+
+          <div class="border-t dark:border-gray-700 pt-4">
+            <div class="flex justify-between font-bold text-lg">
+              <span>Razem:</span>
+              <span class="text-green-600 dark:text-green-400">
+                <%= total.toFixed(2).replace('.', ',' ) %> zł
+              </span>
+            </div>
+          </div>
+
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-4">
+            Klikając "Złóż zamówienie" akceptujesz regulamin sklepu
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>

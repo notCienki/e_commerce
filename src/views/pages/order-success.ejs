@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+
+  <div class="p-6 max-w-2xl mx-auto text-center">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg border dark:border-gray-700 shadow-lg">
+      <svg class="w-20 h-20 text-green-600 dark:text-green-400 mx-auto mb-6" fill="none" stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+
+      <h1 class="text-3xl font-bold mb-4">Zamówienie złożone!</h1>
+
+      <p class="text-xl mb-6">
+        Numer zamówienia: <strong class="text-blue-600 dark:text-blue-400">
+          <%= orderId %>
+        </strong>
+      </p>
+
+      <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded mb-6">
+        <h2 class="font-bold mb-2">Podsumowanie</h2>
+        <div class="text-left space-y-2">
+          <% products.forEach(item=> { %>
+            <div class="flex justify-between">
+              <span>
+                <%= item.name %> x <%= item.quantity %>
+              </span>
+              <span>
+                <%= (item.price * item.quantity).toFixed(2).replace('.', ',' ) %> zł
+              </span>
+            </div>
+            <% }) %>
+        </div>
+        <div class="border-t dark:border-gray-600 mt-3 pt-3 flex justify-between font-bold">
+          <span>Razem:</span>
+          <span class="text-green-600 dark:text-green-400">
+            <%= totalPrice.toFixed(2).replace('.', ',' ) %> zł
+          </span>
+        </div>
+      </div>
+
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        Potwierdzenie zamówienia zostało wysłane na adres email.
+      </p>
+
+      <div class="flex gap-4 justify-center">
+        <a href="/orders"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition-colors">
+          Moje zamówienia
+        </a>
+        <a href="/products"
+          class="border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold py-2 px-6 rounded transition-colors">
+          Kontynuuj zakupy
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
