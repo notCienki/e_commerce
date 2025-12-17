@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const connectDB = require("./db");
-const Product = require("../models/Product");
+import mongoose from 'mongoose';
+import connectDB from './db.js';
+import Product from '../models/Product.js';
 
 const seedProducts = [
   {

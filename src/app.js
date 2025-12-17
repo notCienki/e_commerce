@@ -1,12 +1,20 @@
-require("dotenv").config();
-const express = require("express");
-const session = require("express-session");
-const path = require("path");
-const connectDB = require("./utils/db");
+import dotenv from 'dotenv';
+import express from 'express';
+import session from 'express-session';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import connectDB from './utils/db.js';
+import indexRoutes from './routes/indexRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Połączenie z MongoDB
 connectDB();
 
 // Middleware
@@ -31,10 +39,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routing
-const indexRoutes = require("./routes/indexRoutes");
-const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
-
 app.use("/", indexRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);

@@ -44,7 +44,8 @@
                   <%= product.description %>
                 </p>
                 <% } %>
-                  <p class="text-green-600 dark:text-green-400 font-bold text-2xl mb-3">$<%= product.price %>
+                  <p class="text-green-600 dark:text-green-400 font-bold text-2xl mb-3">
+                    <%= product.price.toFixed(2).replace('.', ',' ) %> zł
                   </p>
                   <p class="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">
                     <%= product.details || 'Brak szczegółowego opisu produktu' %>

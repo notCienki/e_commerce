@@ -1,6 +1,6 @@
-const Product = require('../models/Product');
+import Product from '../models/Product.js';
 
-exports.getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
@@ -22,7 +22,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-exports.searchProducts = async (req, res) => {
+export const searchProducts = async (req, res) => {
   try {
     const query = req.query.q || '';
 

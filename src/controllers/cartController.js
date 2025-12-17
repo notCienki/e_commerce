@@ -1,5 +1,4 @@
-// Dodaj produkt do koszyka
-exports.addToCart = (req, res) => {
+export const addToCart = (req, res) => {
   const { productId, productName, productPrice, productImage } = req.body;
 
   if (!req.session.cart) {
@@ -24,7 +23,7 @@ exports.addToCart = (req, res) => {
 };
 
 // Wyświetl koszyk
-exports.viewCart = (req, res) => {
+export const viewCart = (req, res) => {
   const cart = req.session.cart || [];
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -32,7 +31,7 @@ exports.viewCart = (req, res) => {
 };
 
 // Usuń produkt z koszyka
-exports.removeFromCart = (req, res) => {
+export const removeFromCart = (req, res) => {
   const { productId } = req.params;
 
   if (req.session.cart) {
@@ -43,7 +42,7 @@ exports.removeFromCart = (req, res) => {
 };
 
 // Zaktualizuj ilość
-exports.updateQuantity = (req, res) => {
+export const updateQuantity = (req, res) => {
   const { productId } = req.params;
   const { quantity } = req.body;
 
@@ -61,7 +60,7 @@ exports.updateQuantity = (req, res) => {
 };
 
 // Wyczyść koszyk
-exports.clearCart = (req, res) => {
+export const clearCart = (req, res) => {
   req.session.cart = [];
   res.redirect('/cart');
 };
