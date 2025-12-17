@@ -60,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ productId, productName, productPrice, productImage })
         });
 
+        if (response.redirected) {
+          window.location.href = response.url;
+          return;
+        }
+
         const data = await response.json();
 
         if (data.success) {

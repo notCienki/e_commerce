@@ -4,9 +4,11 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './utils/db.js';
+import { attachUserToViews } from './middleware/auth.js';
 import indexRoutes from './routes/indexRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -38,10 +40,14 @@ app.set("views", path.join(__dirname, "views"));
 // Serwujemy pliki statyczne
 app.use(express.static(path.join(__dirname, "public")));
 
+// Middleware do udostępniania danych usera w widokach
+app.use(attachUserToViews);
+
 // Routing
 app.use("/", indexRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
+app.use('/auth', authRoutes);
 
 // Start serwera
 const PORT = process.env.PORT || 3000;
