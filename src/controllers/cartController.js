@@ -20,7 +20,11 @@ export const addToCart = (req, res) => {
     });
   }
 
-  res.json({ success: true, cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) });
+  if (req.headers['content-type']?.includes('application/json')) {
+    res.json({ success: true, cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) });
+  } else {
+    res.redirect('/cart');
+  }
 };
 
 export const viewCart = (req, res) => {
