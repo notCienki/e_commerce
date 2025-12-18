@@ -1,6 +1,6 @@
 # E-Commerce Web Application
 
-Online store with user accounts, shopping cart, and admin dashboard.Built as a university project for Web Applications course.
+Online store with user accounts, shopping cart, and admin dashboard. Built as a university project for Web Applications course.
 Node.js/Express e-commerce platform with MongoDB.
 
 ## Setup
