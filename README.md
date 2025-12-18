@@ -23,7 +23,7 @@ node src/utils/seed.js
 
 Run:
 ```bash
-npm start
+pnpm run dev
 ```
 
 Admin login: `admin` / `zaq1@WSX`
