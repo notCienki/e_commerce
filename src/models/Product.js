@@ -26,7 +26,6 @@ const productSchema = new mongoose.Schema({
   }
 });
 
-// Text index dla wyszukiwania
 productSchema.index({ name: 'text', description: 'text', details: 'text' });
 
 export default mongoose.model('Product', productSchema);

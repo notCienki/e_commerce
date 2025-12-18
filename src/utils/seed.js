@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import connectDB from './db.js';
 import Product from '../models/Product.js';
+import User from '../models/User.js';
 
 const seedProducts = [
   {
@@ -63,9 +64,26 @@ const seedProducts = [
 
 const seedDB = async () => {
   await connectDB();
+
   await Product.deleteMany({});
   await Product.insertMany(seedProducts);
-  console.log("Seed done!");
+  console.log("Produkty dodane!");
+
+  const existingAdmin = await User.findOne({ username: 'admin' });
+
+  if (!existingAdmin) {
+    const admin = new User({
+      username: 'admin',
+      password: 'zaq1@WSX',
+      isAdmin: true
+    });
+    await admin.save();
+    console.log("Konto admina utworzone: admin / zaq1@WSX");
+  } else {
+    console.log("Admin już istnieje, pomijam tworzenie.");
+  }
+
+  console.log("\nSeed done!");
   mongoose.connection.close();
 };
 

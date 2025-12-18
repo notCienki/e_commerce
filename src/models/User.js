@@ -22,13 +22,11 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hashowanie hasła przed zapisaniem
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-// Metoda do sprawdzania hasła
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };

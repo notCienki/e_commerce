@@ -22,7 +22,6 @@ export const addToCart = (req, res) => {
   res.json({ success: true, cartCount: req.session.cart.reduce((sum, item) => sum + item.quantity, 0) });
 };
 
-// Wyświetl koszyk
 export const viewCart = (req, res) => {
   const cart = req.session.cart || [];
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -30,7 +29,6 @@ export const viewCart = (req, res) => {
   res.render('pages/cart', { cart, total });
 };
 
-// Usuń produkt z koszyka
 export const removeFromCart = (req, res) => {
   const { productId } = req.params;
 
@@ -41,7 +39,6 @@ export const removeFromCart = (req, res) => {
   res.redirect('/cart');
 };
 
-// Zaktualizuj ilość
 export const updateQuantity = (req, res) => {
   const { productId } = req.params;
   const { quantity } = req.body;
@@ -59,7 +56,6 @@ export const updateQuantity = (req, res) => {
   res.json({ success: true });
 };
 
-// Wyczyść koszyk
 export const clearCart = (req, res) => {
   req.session.cart = [];
   res.redirect('/cart');

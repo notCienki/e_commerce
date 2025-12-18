@@ -23,7 +23,11 @@
           <li><a href="/products" class="hover:underline">Produkty</a></li>
           <% if (user) { %>
             <li><a href="/orders" class="hover:underline">Moje zamówienia</a></li>
-            <% } %>
+            <% if (user.isAdmin) { %>
+              <li><a href="/admin" class="hover:underline font-semibold text-purple-600 dark:text-purple-400">Panel
+                  Admin</a></li>
+              <% } %>
+                <% } %>
         </ul>
       </nav>
     </div>
