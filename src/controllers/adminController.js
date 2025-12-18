@@ -39,7 +39,7 @@ export const showAddProduct = (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const { name, description, details, price, stock, images } = req.body;
+    const { name, description, details, price, stock, images, category } = req.body;
 
     if (!name || !price) {
       return res.render('pages/admin/add-product', { error: 'Nazwa i cena są wymagane' });
@@ -51,6 +51,7 @@ export const addProduct = async (req, res) => {
       name,
       description,
       details,
+      category: category || 'Other',
       price: parseFloat(price),
       stock: parseInt(stock) || 0,
       images: imagesArray
@@ -79,7 +80,7 @@ export const showEditProduct = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const { name, description, details, price, stock, images } = req.body;
+    const { name, description, details, price, stock, images, category } = req.body;
 
     if (!name || !price) {
       const product = await Product.findById(req.params.id);
@@ -92,6 +93,7 @@ export const editProduct = async (req, res) => {
       name,
       description,
       details,
+      category: category || 'Other',
       price: parseFloat(price),
       stock: parseInt(stock) || 0,
       images: imagesArray

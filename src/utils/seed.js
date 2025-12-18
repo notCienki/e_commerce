@@ -7,6 +7,7 @@ const seedProducts = [
   {
     name: "Laptop",
     description: "Macbook Pro",
+    category: "Electronics",
     details: `Procesor: Apple M4
               RAM: 16GB
               Dysk SSD: 512GB
@@ -27,6 +28,7 @@ const seedProducts = [
   {
     name: "Smartfon",
     description: "Iphone 17",
+    category: "Electronics",
     details: `Wyświetlacz: 6.3", 2622 x 1206px, OLED, Super Retina XDR
               Pamięć wbudowana [GB]: 256
               Procesor: Apple A19, Sześciordzeniowy
@@ -46,6 +48,7 @@ const seedProducts = [
   {
     name: "Słuchawki",
     description: "AirPods Pro",
+    category: "Accessories",
     details: `Dedykowane: Do iPod/iPhone/iPad, Do telefonów
               Czas pracy [h]: do 24
               Typ słuchawek: Dokanałowe

@@ -1,5 +1,6 @@
 export const addToCart = (req, res) => {
-  const { productId, productName, productPrice, productImage } = req.body;
+  const { productId, productName, productPrice, productImage, quantity } = req.body;
+  const qty = parseInt(quantity) || 1;
 
   if (!req.session.cart) {
     req.session.cart = [];
@@ -8,14 +9,14 @@ export const addToCart = (req, res) => {
   const existingItem = req.session.cart.find(item => item.productId === productId);
 
   if (existingItem) {
-    existingItem.quantity += 1;
+    existingItem.quantity += qty;
   } else {
     req.session.cart.push({
       productId,
       name: productName,
       price: parseFloat(productPrice),
       image: productImage,
-      quantity: 1
+      quantity: qty
     });
   }
 

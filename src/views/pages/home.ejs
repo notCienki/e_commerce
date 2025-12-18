@@ -1,7 +1,54 @@
 <%- include("../partials/header") %>
 
-  <div class="p-6">
-    <h1 class="text-3xl font-bold text-center">Witaj w sklepie internetowym!</h1>
+  <div class="max-w-6xl mx-auto p-6">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Witaj w sklepie internetowym!</h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">Odkryj najnowsze produkty premium</p>
+      <a href="/products"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg inline-block">
+        Zobacz wszystkie produkty
+      </a>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-6">Ostatnio dodane</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <% latestProducts.forEach(product=> { %>
+        <div
+          class="border dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800 shadow hover:shadow-lg transition">
+          <a href="/products/<%= product._id %>">
+            <% if (product.images && product.images.length> 0) { %>
+              <img src="<%= product.images[0] %>" alt="<%= product.name %>"
+                class="w-full h-48 object-contain bg-gray-100 dark:bg-gray-800">
+              <% } else { %>
+                <div class="w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                  <span class="text-gray-500">Brak zdjęcia</span>
+                </div>
+                <% } %>
+          </a>
+
+          <div class="p-4">
+            <a href="/products/<%= product._id %>" class="hover:underline">
+              <h3 class="text-xl font-bold mb-2">
+                <%= product.name %>
+              </h3>
+            </a>
+            <% if (product.description) { %>
+              <p class="text-gray-500 dark:text-gray-400 text-sm mb-2">
+                <%= product.description %>
+              </p>
+              <% } %>
+                <p class="text-green-600 dark:text-green-400 font-bold text-xl mb-4">
+                  <%= product.price.toFixed(2).replace('.', ',' ) %> zł
+                </p>
+                <a href="/products/<%= product._id %>"
+                  class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Zobacz szczegóły
+                </a>
+          </div>
+        </div>
+        <% }) %>
+    </div>
   </div>
 
   <%- include("../partials/footer") %>

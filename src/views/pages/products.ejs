@@ -2,17 +2,44 @@
 
   <h1 class="text-3xl font-bold mb-6 p-6">Produkty</h1>
 
+  <div class="max-w-4xl mx-auto px-6 mb-6">
+    <div class="flex flex-wrap gap-4 items-center justify-between bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+      <div class="flex gap-2 flex-wrap">
+        <a href="/products"
+          class="px-4 py-2 <%= !selectedCategory ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600' %> rounded transition">
+          Wszystkie
+        </a>
+        <a href="/products?category=Electronics"
+          class="px-4 py-2 <%= selectedCategory === 'Electronics' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600' %> rounded transition">
+          Electronics
+        </a>
+        <a href="/products?category=Accessories"
+          class="px-4 py-2 <%= selectedCategory === 'Accessories' ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600' %> rounded transition">
+          Accessories
+        </a>
+      </div>
+
+      <select onchange="window.location.href='/products?category=<%= selectedCategory %>&sort=' + this.value"
+        class="px-4 py-2 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded">
+        <option value="newest" <%=selectedSort==='newest' ? 'selected' : '' %>>Najnowsze</option>
+        <option value="price-asc" <%=selectedSort==='price-asc' ? 'selected' : '' %>>Cena: rosnąco</option>
+        <option value="price-desc" <%=selectedSort==='price-desc' ? 'selected' : '' %>>Cena: malejąco</option>
+        <option value="name-asc" <%=selectedSort==='name-asc' ? 'selected' : '' %>>Nazwa: A-Z</option>
+      </select>
+    </div>
+  </div>
+
   <div class="max-w-4xl mx-auto space-y-6 p-6">
     <% products.forEach((product, index)=> { %>
       <div
         class="border p-6 rounded shadow dark:border-gray-700 bg-white dark:bg-gray-800 grid grid-cols-[300px_1fr] gap-6">
 
         <% if (product.images?.length> 0) { %>
-          <div class="relative group">
-            <div class="carousel" data-carousel="<%= index %>">
+          <a href="/products/<%= product._id %>" class="relative group block">
+            <div class="carousel bg-gray-100 dark:bg-gray-800 rounded" data-carousel="<%= index %>">
               <% product.images.forEach((img, imgIndex)=> { %>
                 <img src="<%= img %>" alt="<%= product.name %>"
-                  class="carousel-image w-full h-64 object-cover object-center rounded <%= imgIndex === 0 ? '' : 'hidden' %>"
+                  class="carousel-image w-full h-64 object-contain rounded <%= imgIndex === 0 ? '' : 'hidden' %>"
                   data-index="<%= imgIndex %>">
                 <% }) %>
             </div>
@@ -32,13 +59,15 @@
                   <% }) %>
               </div>
               <% } %>
-          </div>
+          </a>
           <% } %>
 
             <div class="flex flex-col">
-              <h2 class="text-2xl font-bold mb-1">
-                <%= product.name %>
-              </h2>
+              <a href="/products/<%= product._id %>" class="hover:underline">
+                <h2 class="text-2xl font-bold mb-1">
+                  <%= product.name %>
+                </h2>
+              </a>
               <% if (product.description) { %>
                 <p class="text-gray-500 dark:text-gray-400 text-sm mb-3 italic">
                   <%= product.description %>
@@ -47,14 +76,20 @@
                   <p class="text-green-600 dark:text-green-400 font-bold text-2xl mb-3">
                     <%= product.price.toFixed(2).replace('.', ',' ) %> zł
                   </p>
-                  <p class="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line">
+                  <p class="text-gray-700 dark:text-gray-300 mb-4 whitespace-pre-line line-clamp-3">
                     <%= product.details || 'Brak szczegółowego opisu produktu' %>
                   </p>
-                  <button
-                    class="add-to-cart mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition-colors"
-                    data-product-id="<%= product._id %>" data-product-name="<%= product.name %>"
-                    data-product-price="<%= product.price %>"
-                    data-product-image="<%= product.images?.[0] || '' %>">Dodaj do koszyka</button>
+                  <div class="mt-auto flex gap-2">
+                    <button
+                      class="add-to-cart flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition-colors"
+                      data-product-id="<%= product._id %>" data-product-name="<%= product.name %>"
+                      data-product-price="<%= product.price %>"
+                      data-product-image="<%= product.images?.[0] || '' %>">Dodaj do koszyka</button>
+                    <a href="/products/<%= product._id %>"
+                      class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded transition-colors">
+                      Szczegóły
+                    </a>
+                  </div>
             </div>
 
       </div>
