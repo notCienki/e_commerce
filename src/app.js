@@ -40,7 +40,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(attachUserToViews);
 
 app.use("/", indexRoutes);
-app.use("/", indexRoutes);
 app.use('/products', productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/auth', authRoutes);
